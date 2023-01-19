@@ -1,0 +1,15 @@
+{
+    "host": "localhost",
+    "port": 8000,
+    "hot": false,
+    "cors": true,
+    "store": {
+        "enable": false,
+        "mongoDb": {
+            "host": "localhost",
+            "username": "",
+            "password": "",
+            "database": ""
+        }
+    }
+}

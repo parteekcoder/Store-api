@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truffle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+   
+    <div class="navbar">
+        <div  class="logo">
+          <h1>  Truffle Monitor</h1>
+        </div>
+        <div class="navInfo">
+            <div class="navInfoWrapper">
+                Database Mode:<span>MongoDB</span>|| host: <span>localhost</span> || PORT : <span id="port">8000</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li ><a href="index.html">Registered Routes</a></li>
+                <li class="active"><a href="requestlogs.html">Request logs</a></li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <div class="main-content">
+            <div class="routes">
+                <div class="route">
+                    <div id="route-name"></div>
+                    <div id="database-info"> </div>
+                    <div id="avtivation">Last activated on 25/52/5222</div>
+                    <div class="route-request">
+                        <div class="route-tile"><button onclick="handleClick(localStorage.get('route'))"><a href="#" >GET</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick(localStorage.get('route'))"><a href="#" >POST</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick(localStorage.get('route'))"><a href="#" >PUT</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick(localStorage.get('route'))"><a href="#" >DELETE</a></button></div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="logs-wrapper">
+            <div class="logs">
+                <div class="log">
+
+                    <iframe id="iframe" src="" frameborder="0" width="100%"  max-height="max-content" height="500px"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script >
+        const databaseInfo=document.getElementById('database-info')
+        console.log(databaseInfo)
+        document.querySelector('#iframe').src=`http://localhost:8000/logs/${localStorage.getItem("route")}`
+        const handleClick=(e)=>{
+            localStorage.setItem("route",e);
+        }
+        const noOfDocument=()=>{
+            fetch(`http://localhost:8000/document/${localStorage.getItem("route")}`).then(res=> res.json()).then((result)=>{
+                databaseInfo.innerText=`${result.count} documents in ${localStorage.getItem("route")} collection `
+            }).catch((err)=>{
+                databaseInfo.innerText=`Cannot get documents`
+            })
+        }
+        const lastActivated=()=>{
+            fetch(`http://localhost:8000/active/${localStorage.getItem("route")}`).then(res=>res.json()).then((result)=>{
+                
+                document.getElementById('avtivation').innerText=`Last Activated on ${result}`
+            }).catch((err)=>{
+                document.getElementById('avtivation').innerText=`cannot load`
+            })
+        }
+        const setPort=()=>{
+            fetch('http://localhost:8000/server/port').then(res => res.json()).then(result=>{
+                document.getElementById('port').innerText= result.port
+            }).catch((err)=>{
+                document.getElementById('port').innerText= "cannot load"
+            })
+        }
+        noOfDocument()
+        lastActivated()
+        document.getElementById('route-name').innerHTML=`/${localStorage.getItem("route")}`
+        setPort();
+    </script>
+</body>
+</html>

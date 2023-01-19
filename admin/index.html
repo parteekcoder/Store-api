@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truffle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="navbar">
+        <div  class="logo">
+          <h1>  Truffle Monitor</h1>
+        </div>
+        <div class="navInfo">
+            <div class="navInfoWrapper">
+                Database Mode:<span>MongoDB</span>|| host: <span>localhost</span> || PORT : <span id="port">8000</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li class="active"><a href="index.html">Registered Routes</a></li>
+                <li><a href="requestlogs.html">Request logs</a></li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <div class="main-content">
+            <div class="routes">
+                <div class="route">
+                    <div class="route-name">/users</div>
+                    <div id="database-info-user">120 documents in user collection</div>
+                    <div id="avtivation-user">Last activated on 25/52/5222</div>
+                    <div class="route-request">
+                        <div class="route-tile"><button onclick="handleClick('users')"><a href="requestlogs.html" >GET</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick('users')"><a href="requestlogs.html" >POST</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick('users')"><a href="requestlogs.html" >PUT</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick('users')"><a href="requestlogs.html" >DELETE</a></button></div>
+                    </div>
+                </div>
+                <div class="route">
+                    <div class="route-name-products">/products</div>
+                    <div id="database-info-product">120 documents in user collection</div>
+                    <div id="avtivation-product">Last activated on 25/52/5222</div>
+                    <div class="route-request">
+                        <div class="route-tile"><button onclick="handleClick('products')"><a href="requestlogs.html">GET</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick('products')"><a href="requestlogs.html">POST</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick('products')"><a href="requestlogs.html">PUT</a></button></div>
+                        <div class="route-tile"><button onclick="handleClick('products')"><a href="requestlogs.html">DELETE</a></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script >
+        const handleClick=(path)=>{
+           localStorage.setItem("route",path);
+        }
+        const noOfDocumentUser=()=>{
+            fetch(`http://localhost:8000/document/users`).then(res=> res.json()).then((result)=>{
+                document.getElementById('database-info-user').innerText=`${result.count} documents in users collection `
+            }).catch((err)=>{
+                document.getElementById('database-info-user').innerText=`Cannot get documents`
+            })
+        }
+        const noOfDocumentProducts=()=>{
+            fetch(`http://localhost:8000/document/products`).then(res=> res.json()).then((result)=>{
+                document.getElementById('database-info-product').innerText=`${result.count} documents in products collection `
+                console.log("here")
+            }).catch((err)=>{
+                document.getElementById('database-info-product').innerText=`Cannot get documents`
+            })
+        }
+        const lastActivatedUser=()=>{
+            fetch('http://localhost:8000/active/users').then(res=>res.json()).then((result)=>{
+                document.getElementById('avtivation-user').innerText=`Last Activated on ${result}`
+            }).catch((err)=>{
+                document.getElementById('avtivation-user').innerText=`cannot load`
+            })
+        }
+        const lastActivatedProduct=()=>{
+            fetch('http://localhost:8000/active/products').then(res=>res.json()).then((result)=>{
+                document.getElementById('avtivation-product').innerText=`Last Activated on ${result}`
+            }).catch((err)=>{
+                document.getElementById('avtivation-product').innerText=`cannot load`
+            })
+        }
+        const setPort=()=>{
+            fetch('http://localhost:8000/server/port').then(res => res.json()).then(result=>{
+                document.getElementById('port').innerText= result.port
+            }).catch((err)=>{
+                document.getElementById('port').innerText= "cannot load"
+            })
+        }
+        noOfDocumentUser();
+        noOfDocumentProducts();
+        lastActivatedUser();
+        lastActivatedProduct();
+        setPort();
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,36 @@
+[
+    {
+        "path": "/users/:id?",
+        "collection": "users",
+        "options": {
+            "filter": true,
+            "sort": true,
+            "methods": [
+                "get",
+                "post",
+                "put",
+                "delete"
+            ],
+            "middleware": [
+                
+            ]
+        }
+    },
+    {
+        "path": "/products/:id?",
+        "collection": "products",
+        "options": {
+            "filter": true,
+            "sort": true,
+            "methods": [
+                "get",
+                "post",
+                "put",
+                "delete"
+            ],
+            "middleware": [
+                
+            ]
+        }
+    }
+]

@@ -37,7 +37,7 @@ const getProduct=async(req,res)=>{
 
 const updateProduct=async(req,res)=>{
     if(!req.params?.id) res.status(400).json({error:"Unable to serve this route"});
-    const updates={};
+    let updates={};
     let {category,title,cost}=req.body;
     if(category){
         updates={...updates,category:category};
@@ -49,7 +49,8 @@ const updateProduct=async(req,res)=>{
         updates={...updates,cost:cost};
     }
     try {
-       const result= await Product.findByIdAndUpdate({id:req.params.id},updates);
+       const result= await Product.updateOne({id:req.params.id},updates,{new:true});
+       res.status(200).json({data:result})
 
     } catch (error) {
         res.status(500).json({status:false,data:null,message:"Some error occured"});

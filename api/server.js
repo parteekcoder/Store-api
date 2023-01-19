@@ -130,7 +130,7 @@ app.get('/*',(req,res)=>{
 const connectDb=()=>{
     try {
         
-         mongoose.connect(`mongodb://${truffleConfigure.store.mongoDb.host}:27017`,{
+         mongoose.connect(`mongodb+srv://inayat:123@cluster0.nalinr5.mongodb.net/?retryWrites=true&w=majority`,{
             useNewUrlParser: true
         })
     } catch (error) {

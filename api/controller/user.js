@@ -51,20 +51,19 @@ const addUser = async (req, res) => {
 const updateUser = async (req, res) => {
     if (!req.params?.id) res.status(404).json({ error: "Unable to serve this route" });
     try {
-        const user= await User.find({id:req.params.id})
-            try {
+        const {name,age}=req.body;
+        let queryObject={};
+        if(name) queryObject={...queryObject,name:name};
+        if(age) queryObject={...queryObject,age:age}
+       
+            
                 
                 
-                const updateduser= await User.updateOne(user._id, {
-                name: req.body?.name ? user.name : req.body.name,
-                age: req.body?.age ? user.age : req.body.age
-            },{new:true});
-            res.status(200).json({data:updateduser})
-            } catch (error) {
-                console.log(error)
-                res.status(500).json({ status: false, data: null, message: "Some error occured" });
-                
-            }
+                const updateduser= await User.updateOne({id:req.params.id}, 
+                queryObject
+            ,{new:true});
+            res.status(200).json({updateduser})
+            
         } catch (error) {
         console.log(error)
         

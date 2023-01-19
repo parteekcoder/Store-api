@@ -130,7 +130,7 @@ app.get('/*',(req,res)=>{
 const connectDb=()=>{
     try {
         
-         mongoose.connect(`mongodb+srv://inayat:123@cluster0.nalinr5.mongodb.net/?retryWrites=true&w=majority`,{
+         mongoose.connect(`mongodb+srv://<username>:<password>@cluster0.nalinr5.mongodb.net/?retryWrites=true&w=majority`,{
             useNewUrlParser: true
         })
     } catch (error) {
